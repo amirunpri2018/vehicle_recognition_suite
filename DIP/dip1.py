@@ -180,21 +180,21 @@ while(1):
     #para cada contorno, checar se ele ja existia no frame anterior. se nao,
     #aloca-lo na lista, se sim, adicionar a um historico de pontos existente.
     
-    if framecount > 2:
-        # tracking resulting blobs
-        for index, el in enumerate(hull):
-            M=cv2.moments(el)
-            cx = int(M["m10"] / M["m00"])
-            cy = int(M["m01"] / M["m00"])
-            p=(cx,cy)
-            cv2.circle(roi, p, 7, (0, 255, 255), -1)
+    
+    # tracking resulting blobs
+    for index, el in enumerate(hull):
+        M=cv2.moments(el)
+        cx = int(M["m10"] / M["m00"])
+        cy = int(M["m01"] / M["m00"])
+        p=(cx,cy)
+        cv2.circle(roi, p, 7, (0, 255, 255), -1)
             
-            if point_existed(p,points_history):
-                pos = get_point_pos(p,points_history)
-                points_history[pos].append(p)
+        if point_existed(p,points_history):
+            pos = get_point_pos(p,points_history)
+            points_history[pos].append(p)
                     
-            else:
-                points_history.append([p])
+        else:
+            points_history.append([p])
     
     if point_crossed_line_and_deleted(points_history,LINE_POINTS,ORIENTATION):
         cv2.line(frame,LINE_POINTS[0],LINE_POINTS[1],(0,255,0),5)
