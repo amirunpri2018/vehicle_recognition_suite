@@ -7,6 +7,8 @@ Created on Wed Jun 20 14:57:48 2018
 
 import numpy as np
 import cv2
+import classifier
+#import classifier2
 
 import time
 
@@ -38,9 +40,9 @@ def get_point_pos(p,points_history):
     minpos=distlist.index(min(distlist))
     return minpos
 
-def point_crossed_line_and_deleted(points_history,line,orientation):
+def point_crossed_line(points_history,line,orientation):
     if len(points_history) <= 1:
-        return (False,(0,0))
+        return (False,(0,0),(0,0))
     up=False
     down=False
     if orientation == 'vertical':
@@ -53,9 +55,9 @@ def point_crossed_line_and_deleted(points_history,line,orientation):
                 else:
                     down=True
                 if up and down:
-                    points_history.remove(point_history)
-                    return (True, point)
-    return (False,(0,0))
+                    #points_history.remove(point_history)
+                    return (True, point,point_history)
+    return (False,(0,0),(0,0))
 
 def classify_point(point,rectangles,frame):
     distlist=[];
@@ -64,7 +66,16 @@ def classify_point(point,rectangles,frame):
         yret=rect[1]+rect[3]/2
         distlist.append(np.linalg.norm(np.subtract(point,(xret,yret))))
     minpos=distlist.index(min(distlist))
-    Classifier()
+    x1=rectangles[minpos][0]
+    x2=rectangles[minpos][0]+rectangles[minpos][2]
+    y1=rectangles[minpos][1]
+    y2=rectangles[minpos][1]+rectangles[minpos][3]
+    roi=frame[y1:y2,x1:x2]
+    classifier.classify(roi)
+    
+def drop_point(point_history,points_history):
+    points_history.remove(point_history)
+    
     
     
 #==============================================================================
@@ -80,7 +91,7 @@ ROI_CORNERS = np.array([[(800,180),(400,180), (40,720), (1200,720)]], dtype=np.i
 LINE_POINTS = [(100,600),(1000,600)]
 ORIENTATION='vertical'
 
-cap = cv2.VideoCapture(VID_DIRECTORY+'tarde.mp4')
+cap = cv2.VideoCapture(VID_DIRECTORY+'dia.mp4')
 fgbg = cv2.createBackgroundSubtractorMOG2()
 #detectShadows=False
 
@@ -103,6 +114,7 @@ while(1):
         break
     
     framecount+=1
+    framecopy=frame.copy()
 
     #getting ROI ==============================================================
     # mask defaulting to black for 3-channel and transparent for 4-channel
@@ -183,7 +195,7 @@ while(1):
     #==========================================================================
     
     # drawing rectangles ======================================================
-    [cv2.rectangle(frame,(rect[0],rect[1]),(rect[0]+rect[2],rect[1]+rect[3]),(0,0,255),3) for rect in rectangles]
+    [cv2.rectangle(framecopy,(rect[0],rect[1]),(rect[0]+rect[2],rect[1]+rect[3]),(0,0,255),3) for rect in rectangles]
     #==========================================================================
     
     
@@ -207,18 +219,19 @@ while(1):
         else:
             points_history.append([p])
     
-    point_crossed,point=point_crossed_line_and_deleted(points_history,LINE_POINTS,ORIENTATION)
+    point_crossed,point,point_history=point_crossed_line(points_history,LINE_POINTS,ORIENTATION)
     if point_crossed:
-        cv2.line(frame,LINE_POINTS[0],LINE_POINTS[1],(0,255,0),5)
+        cv2.line(framecopy,LINE_POINTS[0],LINE_POINTS[1],(0,255,0),5)
         classify_point(point,rectangles,frame)
+        drop_point(point_history,points_history)
     else:
-        cv2.line(frame,LINE_POINTS[0],LINE_POINTS[1],(255,0,0),5)
+        cv2.line(framecopy,LINE_POINTS[0],LINE_POINTS[1],(255,0,0),5)
     #==========================================================================
     
     # display images ==========================================================
     cv2.imshow('blobs', contouringresult)
     cv2.imshow('frame', frame)
-    cv2.imshow('fg', fgmaskmblur)
+    cv2.imshow('copy', framecopy)
     #==========================================================================
     
     k = cv2.waitKey(30) & 0xff
