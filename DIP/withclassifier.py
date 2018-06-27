@@ -92,7 +92,7 @@ ROI_CORNERS = np.array([[(800,180),(400,180), (40,720), (1200,720)]], dtype=np.i
 LINE_POINTS = [(100,600),(1000,600)]
 ORIENTATION='vertical'
 
-cap = cv2.VideoCapture(VID_DIRECTORY+'dia.mp4')
+cap = cv2.VideoCapture(VID_DIRECTORY+'tarde.mp4')
 fgbg = cv2.createBackgroundSubtractorMOG2()
 #detectShadows=False
 
