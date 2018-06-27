@@ -7,8 +7,9 @@ Created on Wed Jun 20 14:57:48 2018
 
 import numpy as np
 import cv2
-import classifier
+#import classifier
 #import classifier2
+import custom_classifier
 
 import time
 
@@ -71,7 +72,7 @@ def classify_point(point,rectangles,frame):
     y1=rectangles[minpos][1]
     y2=rectangles[minpos][1]+rectangles[minpos][3]
     roi=frame[y1:y2,x1:x2]
-    classifier.classify(roi)
+    custom_classifier.classify(roi)
     
 def drop_point(point_history,points_history):
     points_history.remove(point_history)

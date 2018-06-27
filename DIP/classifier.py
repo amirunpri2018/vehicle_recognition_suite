@@ -24,7 +24,7 @@ vgg19=vgg19.VGG19(weights='imagenet')
 
 model=vgg19
 def classify(img):
-    old_size = img.shape[:2] # old_size is in (height, width) format
+    #old_size = img.shape[:2] # old_size is in (height, width) format
     #desired_size=224
     #ratio = float(desired_size)/max(old_size)
     #new_size = tuple([int(x*ratio) for x in old_size])
