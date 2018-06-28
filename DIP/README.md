@@ -10,3 +10,11 @@ The goal of this project was to demonstrate digital image processing (DIP) algor
 ## pipeline
 We start by getting the ROI of the frame, in this case, we want the trapezoidal portion that covers the road section of the image.
 ![imgs/roi.png](TODO)
+
+> The ROI is taken by creating another, black image, and filling a shape with the vertices we want for the ROI with non black pixels. we then perform an AND operation between each pixel in the resulting image and the original image.
+
+We then blur the image using the median filter. This results in less noise in later steps of the processing.
+
+> The median filter works by getting all pixel values in each step of the sliding window and ordering them. The result will be the median value.
+
+Then, we use an algorithm that compares the actual frame with the frames before using the Improved adaptive gaussian mixture model for background subtraction (MOG2)TODO
