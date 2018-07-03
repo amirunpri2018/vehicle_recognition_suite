@@ -1,0 +1,1 @@
+Ao final, transferir os repositórios para outro hd, visto que o projeto é muito grande, principalmente por causa dos pesos no arquivo .h5
