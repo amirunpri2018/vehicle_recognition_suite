@@ -78,6 +78,7 @@ ssd_anchors = ssd_net.anchors(net_shape)
 
 
 cap = cv2.VideoCapture(VID_DIRECTORY+'tarde.mp4')
+#out = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 30, (1280//2,720//2))
 
 #benchmarking
 timeslist=[]
@@ -128,6 +129,9 @@ while(1):
     frameresult = visualization.plt_bboxes_cv(roi, rclasses, rscores, rbboxes)
     cv2.imshow('result', frameresult)
     
+    #saving video
+    #out.write(frameresult)
+    
     k = cv2.waitKey(30) & 0xff
     if k == 27:
         break
@@ -137,5 +141,6 @@ while(1):
     timeslist.append(millis*1000)
     
 cap.release()
+#out.release()
 cv2.destroyAllWindows()
 mean = sum(timeslist)/len(timeslist)
