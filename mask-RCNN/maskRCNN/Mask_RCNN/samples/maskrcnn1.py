@@ -82,6 +82,7 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
 #image = skimage.io.imread(filename)
 
 cap = cv2.VideoCapture(VID_DIRECTORY+'tarde.mp4')
+#out = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 30, (1280//2,720//2))
 
 #benchmarking
 timeslist=[]
@@ -126,6 +127,7 @@ while(1):
     
     # Visualize results
     r = results[0]
+
     frameresult=visualize_cv.display_instances(roi, r['rois'], r['masks'], r['class_ids'], 
                                 class_names, r['scores'])
     cv2.imshow('result', frameresult)
@@ -137,7 +139,10 @@ while(1):
     millis2 = time.time()
     millis=millis2 - millis1
     timeslist.append(millis*1000)
+    #saving video
+    #out.write(frameresult)
     
 cap.release()
+#out.release()
 cv2.destroyAllWindows()
 mean = sum(timeslist)/len(timeslist)

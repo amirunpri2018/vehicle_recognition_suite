@@ -113,7 +113,7 @@ def plt_bboxes(img, classes, scores, bboxes, figsize=(10,10), linewidth=1.5):
                            fontsize=12, color='white')
     plt.show()
 # =========================================================================== #
-# openCV show...
+# openCV show by victor cortez
 # =========================================================================== #
 def plt_bboxes_cv(img, classes, scores, bboxes, figsize=(10,10), linewidth=1.5):
     height = img.shape[0]
