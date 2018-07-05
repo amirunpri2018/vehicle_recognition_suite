@@ -93,6 +93,7 @@ LINE_POINTS = [(100,600),(1000,600)]
 ORIENTATION='vertical'
 
 cap = cv2.VideoCapture(VID_DIRECTORY+'tarde.mp4')
+#out = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 30, (1280,720))
 fgbg = cv2.createBackgroundSubtractorMOG2()
 #detectShadows=False
 
@@ -235,6 +236,9 @@ while(1):
     cv2.imshow('copy', framecopy)
     #==========================================================================
     
+    #saving video
+    #out.write(framecopy)
+    
     k = cv2.waitKey(30) & 0xff
     if k == 27:
         break
@@ -244,6 +248,7 @@ while(1):
     timeslist.append(millis*1000)
 
 cap.release()
+#out.release()
 cv2.destroyAllWindows()
 
 mean = sum(timeslist)/len(timeslist)
