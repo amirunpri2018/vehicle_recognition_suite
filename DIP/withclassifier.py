@@ -84,7 +84,8 @@ def drop_point(point_history,points_history):
 # GLOBAL VARIABLES ============================================================
 
 #VID_DIRECTORY = "D:\\Users\\f202897\\Desktop\\vm-master\\Videos\\"
-VID_DIRECTORY = "C:\\Users\\victor\\Desktop\\vm-master\\Videos\\"
+#VID_DIRECTORY = "C:\\Users\\victor\\Desktop\\vm-master\\Videos\\"
+VID_DIRECTORY = "C:\\Users\\victo\\Desktop\\"
 
 #area of interest
 # points = x,y (l-r, t-b)
