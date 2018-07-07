@@ -5,11 +5,11 @@
 
 ## Introduction
 The goal of this project was to demonstrate digital image processing (DIP) algorithms on practice, we achieved this by using traffic video feed to detect, count and classify the vehicles passing by. To each frame, we apply a series of DIP methods in sequence, until we get the finished result. the complete algorithm can be found in the file [withclassifier.py](https://github.com/vicforpublic/vehicle_recognition_suite/blob/master/DIP/withclassifier.py). The video file we will be working with was ceded by Professor (TODO) at Universidade Federal do Rio Grande do Norte. Below an example frame.
-![imgs/orig.png](TODO)
+![orig](imgs/orig.png)
 
 ## pipeline
 We start by getting the ROI of the frame, in this case, we want the trapezoidal portion that covers the road section of the image.
-![imgs/roi.png](TODO)
+![roi](imgs/roi.png)
 
 > The ROI is taken by creating another, black image, and filling a shape with the vertices we want for the ROI with non black pixels. we then perform an AND operation between each pixel in the resulting image and the original image.
 
@@ -27,6 +27,14 @@ After removing the background, we end up with white pixels representing the movi
 
 Hopefully having only white mass on passing-by vehicles now, we fill any black patches left in the white islands, trace their contours, get the convex hull of said contours, and also an enclosing rectangle.
 
+![blobs](imgs/blobs.png)
+
 > A convex hull is the smallest convex polygon that can be made from a set of points. We rather work with a convex shape because the center of mass might be affecte by a shape with too much variance.
 
 After obtaining the center of mass of each polygon, we finally track each center by analysing which center was the closest in the last frame, and when a center crosses the line, we get the rectangular patch that corresponds to that contour, classify the vehicle using a simple neural net trained with keras using the CIFAR-100 dataset, and count that a car has passed.
+
+![result](imgs/bbox.png)
+
+Below a sample of correctly classified vehicle
+
+![custok](imgs/custok.png)
